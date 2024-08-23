@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Tracking Demo</title>
+    <script type="text/javascript">
+        !function () { window.rudderanalytics = window.rudderanalytics || []; var n = function (e) { return function () { window.rudderanalytics.push([e].concat(Array.prototype.slice.call(arguments))) } };["load", "page", "track", "identify", "alias", "group", "ready", "reset", "getAnonymousId", "setAnonymousId"].forEach(function (e) { window.rudderanalytics[e] = n(e) }); window.rudderanalytics.load("{WRITEKYE}", "{DATAPLANE_URL}"); window.rudderanalytics.page(); }();
+    </script>
+    <script src="https://cdn.rudderlabs.com/v1.1/rudder-analytics.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        button {
+            display: block;
+            width: 200px;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Event Tracking Demo</h1>
+    <button id="adImpressionBtn">Trigger AdImpression</button>
+    <button id="adImpressionBtnUnhappy">Trigger AdImpression Unhappy</button>
+    <button id="adClickBtn">Trigger AdClick</button>
+    <button id="adClickWrongDataTypeBtn">Trigger AdClick with datatype mismatch</button>
+    <button id="addToCartBtn">Trigger Add to Cart</button>
+    <button id="beginCheckoutBtn">Trigger Begin Checkout</button>
+    <button id="endCheckoutBtn">Trigger End Checkout</button>
+    <button id="randomEventBtn">Random Event Name</button>
+
+    <script>
+        // Wait for RudderStack to be ready
+        window.rudderanalytics.ready(() => {
+            console.log('RudderStack is ready');
+
+            document.getElementById('adImpressionBtn').addEventListener('click', function () {
+                console.log('AdImpression event triggered');
+                window.rudderanalytics.track('AdImpression', {
+                    pageType: 'xx',
+                    slotName: 'yy',
+                    slotPosition: 'xx',
+                    slotLayout: 'yy',
+                    orderShown: 1,
+                    adType: 'xx',
+                    adProvider: 'yy',
+                    auctionId: 'xx',
+                    adId: 'yy',
+                    product_string: 'xxxx,yyyy'
+                });
+            });
+
+            document.getElementById('adImpressionBtnUnhappy').addEventListener('click', function () {
+                console.log('AdImpression event triggered');
+                window.rudderanalytics.track('AdImpression', {
+                    pageType: 'xx',
+                    slotName: 'yy',
+                    slotPosition: 'xx',
+                    slotLayout: 'yy',
+                    orderShown: 2,
+                    adType: 'xx',
+                    auctionId: 'xx',
+                    adId: 'yy',
+                    product_string: 'xxxx,yyyy'
+                });
+            });
+
+            document.getElementById('adClickBtn').addEventListener('click', function () {
+                console.log('AdClick event triggered');
+                window.rudderanalytics.track('AdClick', {
+                    provider: 'xx',
+                    auctionId: 'yy',
+                    adId: 'xx',
+                    destination: 'yy',
+                    productId: 'xxx'
+                });
+            });
+
+            document.getElementById('adClickWrongDataTypeBtn').addEventListener('click', function () {
+                console.log('AdClick wrong datatype event triggered');
+                window.rudderanalytics.track('AdClick', {
+                    provider: 'xxx',
+                    auctionId: 12345,
+                    adId: 'yyy',
+                    destination: 'xxx',
+                    productId: 'yyyy'
+                });
+            });
+
+            document.getElementById('addToCartBtn').addEventListener('click', function () {
+                console.log('Add to Cart event triggered');
+                window.rudderanalytics.track('AddToCart', {
+                    productId: 'xxx',
+                    productInformation: 'yyy xx yy',
+                    price: 399.99,
+                    quantity: 1,
+                    fulfilmentoption: 'xx',
+                    availableDeliveryOptions: 'yyy'
+                });
+            });
+
+            document.getElementById('beginCheckoutBtn').addEventListener('click', function () {
+                console.log('Begin Checkout event triggered');
+                window.rudderanalytics.track('BeginCheckout', {
+                    productInformation: {
+                        id: 'xxx',
+                        name: 'yy yyy yyy',
+                        price: 399.99,
+                        quantity: 1,
+                        category: 'xxx',
+                        seller: 'yyy',
+                        discount: 0,
+                        promotions: 'xx yy'
+                    },
+                    Checkout_deliveryAddress: 'xxxx',
+                    Checkout_deliveryMoments: 'yyyy',
+                    Checkout_paymentMethods: 'xxxx',
+                    Checkout_costOverview_totalPrice: 568.99,
+                    Checkout_costOverview_shippingCosts: 3.99,
+                    Checkout_costOverview_selectPoints: 113,
+                    Checkout_costOverview_productPrice: 30.99,
+                    Checkout_costOverview_discount: 10.99
+                });
+            });
+
+            document.getElementById('endCheckoutBtn').addEventListener('click', function () {
+                console.log('End Checkout event triggered');
+                window.rudderanalytics.track('EndCheckout', {
+                    productInformation: {
+                        id: 'xxxx',
+                        name: 'yyyyy',
+                        price: 399.99,
+                        quantity: 1,
+                        category: 'xxx',
+                        seller: 'yyyy',
+                        discount: 0,
+                        promotions: 'xxx yyy'
+                    },
+                    Checkout_deliveryAddress: 'xxx',
+                    Checkout_deliveryMoments: 'xx',
+                    Checkout_paymentMethods: 'yy',
+                    Checkout_costOverview_totalPrice: 403.98,
+                    Checkout_costOverview_shippingCosts: 3.99,
+                    Checkout_costOverview_selectPoints: 80,
+                    Checkout_costOverview_productPrice: 399.99,
+                    Checkout_costOverview_discount: 0
+                });
+            });
+
+            document.getElementById('randomEventBtn').addEventListener('click', function () {
+                console.log('Random event triggered');
+                window.rudderanalytics.track('RandomEvent', {
+                    test: "test"
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+ 
